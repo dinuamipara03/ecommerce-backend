@@ -22,5 +22,5 @@ export class AdminController {
     return {
       message: 'User deleted successfully'
     };
-  }
+  } 
 }

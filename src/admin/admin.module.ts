@@ -12,3 +12,4 @@ import { User } from '../auth/entities/user.entity';
   providers: [AdminService],
 })
 export class AdminModule {}
+ 

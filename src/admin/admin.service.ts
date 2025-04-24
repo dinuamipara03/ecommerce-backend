@@ -25,7 +25,7 @@ export class AdminService {
     try {
       const user = await this.userRepo.findOne({ where: { id } });
       
-      if (!user) {
+      if (!user) { 
         throw new NotFoundException(`User with ID ${id} not found`);
       }
 
