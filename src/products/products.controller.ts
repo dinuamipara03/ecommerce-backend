@@ -23,8 +23,7 @@ import { TransformImageInterceptor } from './transform-image.interceptor';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-
-@Controller('products')
+ @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 

@@ -18,8 +18,6 @@ export class ProductFilterService {
         order = 'desc',
         minPrice,
         maxPrice,
-        page = 1,
-        limit = 10,
         search,
         category,
       } = queryDto;
@@ -30,23 +28,23 @@ export class ProductFilterService {
 
       // Apply price filter
       if (minPrice !== undefined) {
-        queryBuilder.andWhere('product.price >= :minPrice', { minPrice });
+        queryBuilder.andWhere('product.price >= minPrice', { minPrice });
       }
       if (maxPrice !== undefined) {
-        queryBuilder.andWhere('product.price <= :maxPrice', { maxPrice });
+        queryBuilder.andWhere('product.price <= maxPrice', { maxPrice });
       }
 
       // Apply search filter
       if (search) {
         queryBuilder.andWhere(
-          '(LOWER(product.name) LIKE LOWER(:search) OR LOWER(product.description) LIKE LOWER(:search))',
+          '(LOWER(product.name) LIKE LOWER(search) OR LOWER(product.description) LIKE LOWER(search))',
           { search: `%${search}%` },
         );
       }
 
       // Apply category filter
       if (category) {
-        queryBuilder.andWhere('LOWER(product.category) = LOWER(:category)', {
+        queryBuilder.andWhere('product.category = :category', {
           category,
         });
       }
@@ -55,26 +53,26 @@ export class ProductFilterService {
       queryBuilder.orderBy(`product.${sortBy}`, order.toUpperCase() as 'ASC' | 'DESC');
 
       // Apply pagination
-      const skip = (page - 1) * limit;
-      queryBuilder.skip(skip).take(limit);
+      // const skip = (page - 1) * limit;
+      // queryBuilder.skip(skip).take(limit);
 
       // Get results and total count
       const [products, total] = await queryBuilder.getManyAndCount();
 
-      // Calculate pagination metadata
-      const totalPages = Math.ceil(total / limit);
-      const hasNextPage = page < totalPages;
-      const hasPreviousPage = page > 1;
+      // // Calculate pagination metadata
+      // const totalPages = Math.ceil(total / limit);
+      // const hasNextPage = page < totalPages;
+      // const hasPreviousPage = page > 1;
 
       return {
         products,
         metadata: {
           total,
-          page,
-          limit,
-          totalPages,
-          hasNextPage,
-          hasPreviousPage,
+          // page,
+          // limit,
+          // totalPages,
+          // hasNextPage,
+          // hasPreviousPage,
         },
       };
     } catch (error) {
@@ -109,4 +107,4 @@ export class ProductFilterService {
       throw new InternalServerErrorException('Failed to fetch price range');
     }
   }
-}
+} 

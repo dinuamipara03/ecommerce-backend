@@ -1,34 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ProductFilterService } from './product-filter.service';
-import { CreateProductFilterDto } from './dto/filter-query.dto';
-import { UpdateProductFilterDto } from './dto/update-product-filter.dto';
+import { FilterQueryDto } from './dto/filter-query.dto';
 
-@Controller('product-filter')
+@Controller('product-filters')
 export class ProductFilterController {
-  constructor(private readonly productFilterService: ProductFilterService) {}
-
-  @Post()
-  create(@Body() createProductFilterDto: CreateProductFilterDto) {
-    return this.productFilterService.create(createProductFilterDto);
-  }
+  constructor(private readonly productFiltersService: ProductFilterService) {}
 
   @Get()
-  findAll() {
-    return this.productFilterService.findAll();
+  async filterProducts(@Query() query: FilterQueryDto) {
+    const result = await this.productFiltersService.filterProducts(query);
+    return {
+      message: 'Products filtered successfully',
+      data: result.products,
+      // metadata: result.metadata,
+    };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productFilterService.findOne(+id);
+  @Get('new-arrivals')
+  async getNewArrivals() {
+    const products = await this.productFiltersService.getNewArrivals();
+    return {
+      message: 'New arrivals retrieved successfully',
+      data: products,
+    };
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductFilterDto: UpdateProductFilterDto) {
-    return this.productFilterService.update(+id, updateProductFilterDto);
+  @Get('price-range')
+  async getPriceRange() {
+    const range = await this.productFiltersService.getPriceRange();
+    return {
+      message: 'Price range retrieved successfully',
+      data: range,
+    };
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productFilterService.remove(+id);
-  }
 }

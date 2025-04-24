@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
@@ -14,35 +14,28 @@ export class ProductService {
 
   async create(createProductDto: CreateProductDto & { adminId: number }) {
     try {
-      // Log the input data
-      // console.log('Creating product with data:', createProductDto);
-
-      // Create the product instance
+      // Create the product instance with all fields
       const product = this.productRepo.create({
         name: createProductDto.name,
         description: createProductDto.description,
+        category: createProductDto.category,
         price: createProductDto.price,
         quantity: createProductDto.quantity,
         images: createProductDto.images || [],
         adminId: createProductDto.adminId
       });
 
-      // console.log('Product instance created:', product);
+      console.log('Attempting to save product:', product); // Debug log
       
       // Save the product
       const savedProduct = await this.productRepo.save(product);
-      // console.log('Product saved:', savedProduct);
+      console.log('Product saved successfully:', savedProduct); // Debug log
       
       return savedProduct;
     } catch (error) {
-      // Log the detailed error
-      // console.error('Detailed error creating product:', {
-      //   message: error.message,
-      //   stack: error.stack,
-      //   sqlMessage: error.sqlMessage, // For SQL errors
-      //   detail: error.detail // For other database errors
-      // });
-      throw new InternalServerErrorException('Failed to create product');
+      console.error('Error creating product:', error); // Debug log
+      
+      throw new InternalServerErrorException(`Failed to create product: ${error.message}`);
     }
   }
 

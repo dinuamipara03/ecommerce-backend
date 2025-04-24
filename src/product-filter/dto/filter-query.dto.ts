@@ -44,4 +44,5 @@ export class FilterQueryDto {
   @IsOptional()
   @IsString()
   category?: string;
+
 }
