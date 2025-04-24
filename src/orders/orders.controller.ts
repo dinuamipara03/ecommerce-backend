@@ -22,7 +22,7 @@ export class OrdersController {
   findAll(@Request() req) {
     return this.ordersService.findAll(req.user.id, req.user.role);
   }
-
+ 
   @Put(':id/status')
   @UseGuards(RolesGuard)
   @Roles('Admin', 'ADMIN')
