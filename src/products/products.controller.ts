@@ -99,7 +99,7 @@ export class ProductController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('Admin')
+  @Roles('Admin','ADMIN')
   @UseInterceptors(
     FilesInterceptor('images', 10, {
       storage: diskStorage({
@@ -152,7 +152,7 @@ export class ProductController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('Admin')
+  @Roles('Admin','ADMIN')
   async remove(@Param('id') id: string, @Request() req) {
     await this.productService.remove(parseInt(id));
     return { message: 'Product deleted successfully' };
