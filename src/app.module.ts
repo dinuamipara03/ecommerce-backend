@@ -9,6 +9,7 @@ import { CartItem } from './cart/entities/cart.entity';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { AdminModule } from './admin/admin.module';
+import { ProductFilterModule } from './product-filter/product-filter.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AdminModule } from './admin/admin.module';
     CartModule,
     OrdersModule,
     AdminModule,
+    ProductFilterModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../auth/entities/user.entity';
 
 @Entity('products') //name the table
@@ -27,4 +27,12 @@ export class Product {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'adminId' })
   admin: User;
+
+  @CreateDateColumn()
+    createdAt: Date;
+  
+    @UpdateDateColumn()
+    updatedAt: Date;
 }
+
+
