@@ -25,15 +25,15 @@ export class ProductService {
         adminId: createProductDto.adminId
       });
 
-      console.log('Attempting to save product:', product); // Debug log
+      // console.log('Attempting to save product:', product); // Debug log
       
       // Save the product
       const savedProduct = await this.productRepo.save(product);
-      console.log('Product saved successfully:', savedProduct); // Debug log
+      // console.log('Product saved successfully:', savedProduct); // Debug log
       
       return savedProduct;
     } catch (error) {
-      console.error('Error creating product:', error); // Debug log
+      // console.error('Error creating product:', error); // Debug log
       
       throw new InternalServerErrorException(`Failed to create product: ${error.message}`);
     }
