@@ -102,5 +102,11 @@ export class OrdersService {
     }
     return { message: 'Order deleted successfully' };
   }
-   
+  
+  async findOne(id: number) {
+    return this.orderRepository.findOne({
+      where: { id },
+      relations: ['products'], // Explicitly load the products relation
+    });
+  }
 }

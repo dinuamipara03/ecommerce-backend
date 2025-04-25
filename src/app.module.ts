@@ -10,6 +10,8 @@ import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { AdminModule } from './admin/admin.module';
 import { ProductFilterModule } from './product-filter/product-filter.module';
+import { PaymentModule } from './payment/payment.module';
+import { Payment } from './payment/entities/payment.entity';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { ProductFilterModule } from './product-filter/product-filter.module';
       username: 'root',
       password: '',
       database: 'ecommerce',
-      entities: [User, Product, CartItem, Order],
+      entities: [User, Product, CartItem, Order,Payment],
       synchronize: true, //automatically create and update
     }),
     AuthModule,
@@ -29,6 +31,7 @@ import { ProductFilterModule } from './product-filter/product-filter.module';
     OrdersModule,
     AdminModule,
     ProductFilterModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}
