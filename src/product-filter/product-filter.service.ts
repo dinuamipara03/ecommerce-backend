@@ -48,6 +48,7 @@ export class ProductFilterService {
           category,
         });
       }
+      
 
       // Apply sorting
       queryBuilder.orderBy(`product.${sortBy}`, order.toUpperCase() as 'ASC' | 'DESC');

@@ -24,6 +24,7 @@ export class ProductFilterController {
       data: products,
     };
   }
+  
 
   @Get('price-range')
   async getPriceRange() {

@@ -9,6 +9,5 @@ import { Product } from '../products/entities/product.entity';
   controllers: [ProductFilterController],
   providers: [ProductFilterService],
 })
-export class ProductFilterModule {
-  
+export class ProductFilterModule {  
 }
