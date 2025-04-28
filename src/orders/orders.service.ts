@@ -50,7 +50,7 @@ export class OrdersService {
 
     if (userRole === 'BUYER') {
       query = query.where('order.buyerId = :userId', { userId });
-    } else if (userRole === 'SELLER') {
+    } else if (userRole === 'ADMIN') {
       query = query.where('products.adminId = :userId', { userId });
     }
 
@@ -80,7 +80,7 @@ export class OrdersService {
       throw new NotFoundException('Order not found');
     }
 
-    if (userRole === 'SELLER') {
+    if (userRole === 'ADMIN') {
       const hasProduct = order.products.some(product => product.adminId === userId);
       if (!hasProduct) {
         throw new ForbiddenException('You can only update orders for your products');

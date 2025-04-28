@@ -26,7 +26,7 @@ export class PaymentService {
       if (order.buyerId !== userId) {
         throw new NotFoundException('Order not found');
       }
-
+      
       // Check if products exist
       if (!order.products || !order.productQuantities) {
         throw new Error('Invalid order data: missing products or quantities');
