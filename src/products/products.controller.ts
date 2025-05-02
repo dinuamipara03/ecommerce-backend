@@ -129,7 +129,7 @@ export class ProductController {
 
       let updateData = { ...updateProductDto };
 
-      // Handle new image uploads if any
+      // Handle new image uploads if any // entity or service
       if (files && files.length > 0) {
         const newImageUrls = files.map(file => 
           `http://localhost:8000/uploads/${file.filename}`

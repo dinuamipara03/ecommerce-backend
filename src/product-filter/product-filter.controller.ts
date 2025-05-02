@@ -6,14 +6,24 @@ import { FilterQueryDto } from './dto/filter-query.dto';
 export class ProductFilterController {
   constructor(private readonly productFiltersService: ProductFilterService) {}
 
+  // @Get()
+  // async filterProducts(@Query() query: FilterQueryDto) {
+  //   const result = await this.productFiltersService.filterProducts(query);
+  //   return {
+  //     message: 'Products filtered successfully',
+  //     data: result.products,
+  //     // metadata: result.metadata,
+  //   };
+  // }
   @Get()
-  async filterProducts(@Query() query: FilterQueryDto) {
-    const result = await this.productFiltersService.filterProducts(query);
-    return {
-      message: 'Products filtered successfully',
-      data: result.products,
-      // metadata: result.metadata,
-    };
+  async filterProducts(@Query() query: any) {
+    // Normalize query parameters
+    if (query.sortby && !query.sortBy) {
+      query.sortBy = query.sortby;
+      delete query.sortby;
+    }
+
+    return this.productFiltersService.filterProducts(query as FilterQueryDto);
   }
 
   @Get('new-arrivals')

@@ -12,18 +12,20 @@ import { AdminModule } from './admin/admin.module';
 import { ProductFilterModule } from './product-filter/product-filter.module';
 import { PaymentModule } from './payment/payment.module';
 import { Payment } from './payment/entities/payment.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
+    ConfigModule.forRoot(), // Load environment variables
+ TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'ecommerce',
-      entities: [User, Product, CartItem, Order,Payment],
-      synchronize: true, //automatically create and update
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT || '3306'),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [User, Product, CartItem, Order, Payment],
+      synchronize: true, // Set to false in production
     }),
     AuthModule,
     ProductModule,

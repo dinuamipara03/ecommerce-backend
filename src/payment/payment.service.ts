@@ -91,7 +91,9 @@ export class PaymentService {
         subtotal: product.price * order.productQuantities[product.id]
       })),
       totalAmount,
-      address: order.address
+      address: order.address,
+      city:order.city,
+      pincode:order.pincode
     };
   }
 }

@@ -35,6 +35,12 @@ export class Order {
   @Column()
   address: string;
 
+  @Column()
+  city:string;
+
+  @Column()
+  pincode:number;
+
   @Column({
     type: 'enum',
     enum: OrderStatus,

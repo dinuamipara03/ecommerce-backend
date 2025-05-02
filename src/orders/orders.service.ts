@@ -18,6 +18,8 @@ export class OrdersService {
     const order = this.orderRepository.create({
       buyerId: userId,
       address: createOrderDto.address,
+      city:createOrderDto.city,
+      pincode:createOrderDto.pincode,
       status: OrderStatus.PENDING,
       productQuantities: {}
     });
@@ -73,25 +75,25 @@ export class OrdersService {
   async updateStatus(orderId: number, userId: number, userRole: string, status: OrderStatus) {
     const order = await this.orderRepository.findOne({
       where: { id: orderId },
-      relations: ['products']
+      relations: ['products', 'products.admin'], // Ensure admin relation is loaded
     });
-
+  
     if (!order) {
       throw new NotFoundException('Order not found');
     }
-
+  
     if (userRole === 'ADMIN') {
       const hasProduct = order.products.some(product => product.adminId === userId);
       if (!hasProduct) {
         throw new ForbiddenException('You can only update orders for your products');
       }
     }
-
+  
     order.status = status;
     await this.orderRepository.save(order);
-
+  
     return {
-      message: `Order status updated to ${status}`
+      message: `Order status updated to ${status}`,
     };
   }
 
