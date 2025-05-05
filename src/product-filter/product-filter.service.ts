@@ -20,55 +20,63 @@ export class ProductFilterService {
         maxPrice,
         search,
         category,
+        page = 1,
+        limit = 10,
       } = queryDto;
-
+  
+      const take = Number(limit);
+      const skip = (Number(page) - 1) * take;
+  
       const queryBuilder = this.productRepo
         .createQueryBuilder('product')
         .leftJoinAndSelect('product.admin', 'admin');
-
-      // Apply price filter with proper type casting
+  
       if (minPrice) {
         const minPriceValue = parseFloat(minPrice.toString());
-        queryBuilder.andWhere('CAST(product.price AS DECIMAL) >= :minPrice', { 
-          minPrice: minPriceValue 
+        queryBuilder.andWhere('CAST(product.price AS DECIMAL) >= :minPrice', {
+          minPrice: minPriceValue,
         });
       }
-
+  
       if (maxPrice) {
         const maxPriceValue = parseFloat(maxPrice.toString());
-        queryBuilder.andWhere('CAST(product.price AS DECIMAL) <= :maxPrice', { 
-          maxPrice: maxPriceValue 
+        queryBuilder.andWhere('CAST(product.price AS DECIMAL) <= :maxPrice', {
+          maxPrice: maxPriceValue,
         });
       }
-
-      // Apply search filter
+  
       if (search) {
         queryBuilder.andWhere(
           '(LOWER(product.name) LIKE LOWER(:search) OR LOWER(product.description) LIKE LOWER(:search))',
-          { search: `%${search}%` }
+          { search: `%${search}%` },
         );
       }
-
-      // Apply category filter
+  
       if (category) {
         queryBuilder.andWhere('product.category = :category', { category });
       }
-
-      // Apply sorting
-      queryBuilder.orderBy(`product.${sortBy}`, order.toUpperCase() as 'ASC' | 'DESC');
-
-      // Get results
+  
+      queryBuilder
+        .orderBy(`product.${sortBy}`, order.toUpperCase() as 'ASC' | 'DESC')
+        .skip(skip)
+        .take(take);
+  
       const [products, total] = await queryBuilder.getManyAndCount();
-
+  
       return {
         products,
         metadata: {
           total,
+          page: Number(page),
+          limit: Number(limit),
+          totalPages: Math.ceil(total / take),
         },
       };
     } catch (error) {
       console.error('Filter products error:', error);
-      throw new InternalServerErrorException(`Failed to filter products: ${error.message}`);
+      throw new InternalServerErrorException(
+        `Failed to filter products: ${error.message}`,
+      );
     }
   }
 
