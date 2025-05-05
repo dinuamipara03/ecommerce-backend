@@ -12,7 +12,7 @@ export class MailService {
   });
 
   async sendResetLink(email: string, token: string) {
-    const resetUrl = `http://localhost:3000/api/auth/reset-password?token=${token}`;
+    const resetUrl = `http://localhost:3000/reset-password?token=${token}`;
     await this.transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
