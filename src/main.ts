@@ -8,7 +8,9 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
-  app.enableCors();
+  app.enableCors({
+    origin:['e-commerce-seven-olive-87.vercel.app'],
+  });
   app.useGlobalPipes(new ValidationPipe({
     whitelist:true,
     forbidNonWhitelisted:true,
@@ -21,7 +23,7 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
   
-  await app.listen(8000); // "192.168.1.90"
+  await app.listen(8000,"192.168.1.90"); // "192.168.1.90"
   console.log(`Application is running on: http://localhost:8000`);
 }
 bootstrap();
