@@ -9,6 +9,8 @@ import { ProductFilterModule } from './product-filter/product-filter.module';
 import { PaymentModule } from './payment/payment.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
+import * as crypto from 'crypto';
+(global as any).crypto = crypto;
 
 @Module({
   imports: [
@@ -33,6 +35,7 @@ import typeorm from './config/typeorm';
     AdminModule,
     ProductFilterModule,
     PaymentModule,
+  
   ],
 })
 export class AppModule {}
