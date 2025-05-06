@@ -9,8 +9,12 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   
   app.enableCors({
-    origin:['e-commerce-seven-olive-87.vercel.app'],
+    origin:"*",
+    credentials: true,
+    methods: ['GET', 'POST','PATCH','DELETE','PUT', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
+  
   app.useGlobalPipes(new ValidationPipe({
     whitelist:true,
     forbidNonWhitelisted:true,
